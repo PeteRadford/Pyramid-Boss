@@ -1,0 +1,22 @@
+extends Node3D
+@onready var timer = $Timer
+
+var is_rotating = false
+var rotation_time = 3.0
+var total_rotation = 0.0
+
+func _ready():
+	timer.start()
+
+func _on_timer_timeout():
+	is_rotating = true
+
+func _process(delta):
+	if is_rotating:
+		var rotation_amount = 1080 * (delta / rotation_time)
+		rotate_y(deg_to_rad(rotation_amount))
+		total_rotation += rotation_amount
+		
+		if total_rotation >= 1080.0:
+			is_rotating = false
+			total_rotation = 0.0
